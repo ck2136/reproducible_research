@@ -56,7 +56,7 @@ People call the command-line interpreter the *shell*. It's called the shell beca
 
 When you open up the terminal you'll see something like this:
 
-![example prompt](./static/temp.png)
+![example prompt](./static/fig1.png)
 
 ```
 root@machine:~$

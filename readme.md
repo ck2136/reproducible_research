@@ -114,13 +114,149 @@ Now let's create a readme file about the project that we're going to work on. Us
 
 ![](./fig2.png)
 
+Once we have a simple README.md file saved in the folder now we cna add it to our local and remote repository.
 
-
-Pull, Add, Commit, Push
+Init, Pull, Add, Commit, Push
 -----------------------
 
-Now that we've started a project, we should probably discuss a little bit about the (usual) steps one takes throughout a project. So if you have a project stored on a remote repository, you
+Now that we've started a project and have a file that is subject to version control, we should probably discuss a little bit about the (usual) steps one takes throughout a project. Once we have a folder with a file that we want to keep track of, we initialize (`git init`) the folder, we add (`git add filename`) the file to the local repository, we commit (`git commit -m "message"`) our changes, and then we push (`git push origin master`). The `git push origin master` code is basically indicating that we want to finalize the changes that we've commited :) origin is the default name of the remote repository. `master` is branch that we're making changes to. If we had branches that were stemming from the master branch, we could have `git push origin <branch name>`. If we don't want to push the changes, we can revert (e.g. `git revert commit-id` where `commit-id` would be something like `9ca304ed12b991f8251496b4ea452857b34353e7` based on looking at the `git log`) 
 
+There are many more commands that we could touch on but these are the basics of the workflow that is most useful for the workflow.
+
+Now that we have a readme file let's try adding the file to the git repository and putting into a remote repository. We should probably set up a github account first so that we actually have a remote repository. Go to [github.com](www.github.com) and create an account.
+
+Once you are signed in you will see a green "New repository" button. Hit it!
+
+![](./static/fig3.png)
+
+Once done insert whatever repository name you would like it to be. Add a description if you like and keep it public :) Also don't check the "Initialize this repository with a README" box because we just made one :)
+
+The github folks are kind enough to give us instruction and you could always use the instructions to setting up a connection from local repository to remote repository. Now that we need to link the local repository with the remote repository. Now we can add, commit, add remote repository, push changes made in repository to remote repository
+
+```
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:username/projectname.git
+git push origin master
+```
+
+Boom! we have made our first push to a remote git repository. The output should indicate the status of the changes that were made.
+
+From here on out if changes were made to a file and we want to check what kind of changes were made in the repository we can issue:
+
+
+```
+git status
+```
+
+and we can see 
+- On what branch changes were made
+- What type of commits were made and to be made
+- Any files that have been added to the commit or if there are "untracked" files
+- Suggestion to use `git add` to add the files to the git commits
+
+
+```
+git add file1 file2 file3
+git commit -m "commit message"
+```
+
+to make changes onto your repository:) 
+
+So to add a bit of explanation of what has just happened, git requires that files be "added" or "staged" so that each versions of the file can be recorded. Once recorded into git's system, changes made can be "tracked". If files are "untracked", git doesn't care about them and won't be version controlled. Staging is important because git starts a local draft of the next commit with reference to ALLL files and directories contained in the repository (it isn't referencing just files that have changed). The idea is that git is taking a snapshot of the state of the project at the given moment which helps users going forward or reverting back to whatever version of the projec they are working on. 
+
+When a commit is made a unique id will be outputted as such:
+
+```
+[master (root-commit) 600df9f] Initial commit
+```
+
+As mentioned before, the unique id `600df9f` can be used to revert to previous version of project state. 
+
+Second Commit
+--
+
+OK now that we've made a first commit, let's make a second commit by changing up the README.md document. Make a few changes and lets get back to the terminal and see what has happned. We're also going to create a folder named "code" and add a file named data_manage.R
+
+```
+mkdir code
+touch ./code/data_manage.R
+git status
+```
+
+you will notice that now that we have git telling us what changes that were made. It suggests that we could either use `git add filename` to include new changes that were made to the README.md file or to use `git checkout` to discard the changes made to the README.md file. Also on the bottom it indicates that the code/ folder is untracked so it suggests adding that to our git staging area.
+
+```
+git add README.md code/data_manage.R
+git status
+```
+
+The status now indicats that we've added the files to the master branch in the origin repository. Now we can commit the changes:
+
+```
+git commit -m "Add data management code"
+```
+
+You can also check the commit history now
+
+```
+git log
+```
+
+Removing file
+--
+
+Now that we've added files and made some changes to the gir repository, we should practice removing files. In the shell prompt, the command `rm file` will usually just remove the file. Similarly, `git rm file` will remove a file but we also need to commit that removal into the git system. Let's try an example.
+
+```
+touch temp.txt
+git add temp.txt
+git commit -m "add temp file"
+git status
+```
+
+we see that temp is added to the repository. Now let's remove the file.
+
+```
+git rm temp.txt
+git status
+```
+
+we can see that at the master branch the temp.txt file has been deleted.you can type `ls` to list files in the directory and see that it doesn't exist in the directory either. Now we need to commit the deletion.
+
+```
+git commit -m "deleted temp file"
+git status
+git log
+```
+The log will show the history of what has happened so far. If one wantedto one could return to either of the commit stages by performing the `it revert <commitid>`.
+
+If you've mistakedn removed a file through another means, you could still run the `git rm temp.txt` because the file is still in git's staging area (i.e. database) and make sure to commit the change.
+
+Renaming files
+--
+
+So renaming files in Unix-environment is pretty easy. Just type `mv oldfile newfile` and there you have it. But this creates a problem for git because it recognizes that `oldfile` is removed and `newfile` is untracked in the folder. If you used `git mv oldfile newfile` then changes don't need to be added.Then we just need to commit the name change. Try it yourself
+
+```
+git mv README.md READ.md
+git commit
+git status
+git log 
+```
+
+Name change has occured! Let's revert back to before commiting this time.
+
+```
+git revert HEAD
+```
+
+This command will open up a editor (at least in linux) to indicate to what commit we are rolling back to.
+
+git add --all
+--
+
+If we are absolutely in a rush and there are too many things going on in the repository. We should probably wait until we have time to make changes to the repository. However, for those that are inpatient, there is a nuclear option. `git add all` will add all files that are both tracked and untracked into the staging area. Then everything is one commit away from being stored into the local repository. THe nuclear option is almost never advised because one should really be thinking about each individual components and what changes that were made specifically so that when one comes back to the project, it's easier to remember where things were for each specific files. A summary of what happened should suffice for each file.
 
 What is make?
 -------------

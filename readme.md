@@ -27,7 +27,7 @@ Installing git!
 ---------------
 
 - Windows:
-    - go to [link)[https://git-scm.com/download/win]]. This should start an automatic download... If not hit the 32-bit or 64-bit Git for windows.
+    - go to [link](https://git-scm.com/download/win). This should start an automatic download... If not hit the 32-bit or 64-bit Git for windows.
     - The installer provides a terminal application called 'Git Bash', which is an emulator for a Unix-based system such as Linux and MacOS X. The Git Bash environment will make it so that commands written will give us same results as if it was done in a Unix environment.
 
 - Linux

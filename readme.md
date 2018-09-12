@@ -1,7 +1,6 @@
 # Reproducible Research and CI/CD Tutorial
 
-Reproducible Research
----------------------
+## Reproducible Research
 
 - What: Doing research in a way that is efficient and transparent. 
 - Why: Check news on issues related to research not being reproducible. 
@@ -14,6 +13,8 @@ Topics to cover:
 - Make (Automated build tool)
 - Jenkins (Continuous Integration/Development/Deployment)
 
+
+## Git
 
 What is git?
 ------------
@@ -95,7 +96,7 @@ pwd
 /c/Users/ck
 ```
 
-Now that we know where we are create a new folder and change directory (cd) into the new directory:
+Now that we know where we are, create a new folder and change directory (cd) into the new directory:
 
 ```
 mkdir proj1
@@ -257,6 +258,113 @@ git add --all
 --
 
 If we are absolutely in a rush and there are too many things going on in the repository. We should probably wait until we have time to make changes to the repository. However, for those that are inpatient, there is a nuclear option. `git add all` will add all files that are both tracked and untracked into the staging area. Then everything is one commit away from being stored into the local repository. THe nuclear option is almost never advised because one should really be thinking about each individual components and what changes that were made specifically so that when one comes back to the project, it's easier to remember where things were for each specific files. A summary of what happened should suffice for each file.
+
+Branching
+--
+
+So we've looked at changing the master branch up to this point. THe master branch is technically the "official" copy of the project/work. If we wanted to try out different things from the master branch at some point, we need to grow some other branches. Let's do that:
+
+Every git repo starts with a master branch. People usually put "stable" and/or "primary" version of the project/work in the master branch. Definition of either of those words vary by person (you get to decide essentially). We can take a look at what branches we have by typing:
+
+```
+git branch
+```
+
+we see that there is a master branch but nothing more. To understand how the master branch is linked to the commit stacks take a look at 
+
+```
+git log
+```
+
+The top string after the commit is the commit-id and we call it the head commit. Everything below traces the history of the changes we made to the repository. Everything on the master branch can be traced :) 
+
+New Branch
+--
+
+Let's start a new branch for the code that we made earlier: data_manage.R. Technically branching is used when we want to make a big change to the code base but we don't want there to be immediate changes implemented/deployed. The safe place that we create this change will be a "working branch". Let's make a new branch called `new-data-manage` by typing:
+
+```
+git branch new-data-manage
+```
+
+you can immediately check what branches we have:
+
+```
+git branch
+```
+
+Git doesn't put you into the new branch so you need to "checkout" the new branch.
+
+```
+git checkout new-data-manage
+```
+
+now you should see something that indicates that there has been a switch to branch 'new-data-manage'. Another way you could've created and checkout the branch on one go would be `git checkout -b new-data-manage`. At the moment the two branches (`master` and `new-data-manage`) are just two different names for the same commitid. Since they have the same head commit, everything before the head commit is the same. However, any commit made to `new-data-manage` will now only be in the new branch not in the `master` branch. Let's make a change to the data_manage.R file now. Once we change the file we can commit.
+
+```
+git add code/data_manage.R
+git commit -m "Add data download step" 
+```
+To combine the above steps one could also issue `git commit -am "message"` where the -a option allows automatic adding of the changed data to the staging area.
+
+with the `git log` statement we can check where we currently our in terms of the branch and where the master branch is also. 
+
+Merging
+--
+
+Usually, there is a scenario where someone is working on the master branch while another is working on a different "working" branch. In the case that the two branch should be merged, we start by checking out the master branch:
+
+
+```
+git checkout master
+```
+
+Merging from the `new-data-manage` branch is as such:
+
+```
+git merge new-data-manage
+```
+
+Done! The master branch now has merged changes that were commited into the new-data-manage branch and has been commited also.
+
+The simplest merge is what we just saw termed `fast-forward`. Nothing has changed in the master branch since we started the new-data-manage branch. Only one side of the merger has changed thus the merged state will be identical to that of the new-data-manage branch.
+
+Interestingly, the fast-forward merging is usually not something that occurs often. An analyst or programmer may be carried away with one of the branches he/she is working on and goes far away from the master branch. To avoid having to go through a difficult merge, it's recommended that the master branch is merged into the other branch that one is workign on regularly using `git merge master`. 
+
+Merge conflicts
+--
+
+This is scary for new users of git. What happens if there are two different branches that show very different files? When doing merges of the two branches git will work through the branches until it can't and it'll ask the user to finalize the merge. 
+
+Up to the point of conflict, `git merge <branch>` will essentially automatically add and commit the changes. Where differences arises, git will essentially display the two different files with *conflict markers* and the user is supposed to go through each one and choose which one of the files that we want to merge into our newest commit.
+
+Let's try an example. We're going to create a new branch called add-data-01 and change the data_manage.R code so that we get NHANES data from 2001-2002. 
+
+
+```
+git branch add-data-01
+git checkout add-data-01
+```
+
+Now go back to the master branch and change the data_manage.R so that it's completely different from what was written in the add-data-01 branch. Add comments and weird code if you want. 
+
+```
+git checkout master # edit the code/data_manage.R code
+```
+
+let's say we want to add the master branche's change to the add-data-01 branch.
+
+```
+git checkout add-data-01
+git merge master
+```
+
+you'll see a `CONFLICT (content)` message popup. And if you go into the code/data_manage.R file you'll se some cryptic signs `<<<<<, =====`. The code in between `<<<<<< HEAD` and `=======` is the current commit head of the branch we are in (i.e. checking out). In otherwords, this is the code that is originally in the add-data-01 branch. The code below the `======` sign is the master branch version that we're trying to merge in. To resolve this conflict we need to get rid of the things that you don't want there to be in the file. Get rid of the angled brackets and the equal sign. Afterwards, save and we just have to officially add the file to the staging area and commit to the branch we're in, which is the add-data-01 branch.
+
+```
+git commit -am "keep add-data-01 as is"
+```
+
 
 What is make?
 -------------

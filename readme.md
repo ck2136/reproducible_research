@@ -82,6 +82,8 @@ ls -alF
 cd ..
 mkdir new-dir
 touch new-file
+rm new-file
+rm -rf new-dir
 vim new-file
 ```
 

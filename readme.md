@@ -247,7 +247,7 @@ git commit -m "deleted temp file"
 git status
 git log
 ```
-The log will show the history of what has happened so far. If one wantedto one could return to either of the commit stages by performing the `it revert <commitid>`.
+The log will show the history of what has happened so far. If one wantedto one could return to either of the commit stages by performing the `git revert <commitid>`.
 
 If you've mistakedn removed a file through another means, you could still run the `git rm temp.txt` because the file is still in git's staging area (i.e. database) and make sure to commit the change.
 
@@ -258,7 +258,7 @@ So renaming files in Unix-environment is pretty easy. Just type `mv oldfile newf
 
 ```
 git mv README.md READ.md
-git commit
+git commit -m "message"
 git status
 git log 
 ```

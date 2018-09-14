@@ -47,7 +47,7 @@ Installing git!
 - MacOSX
     - go to [link](https://git-scm.com/download/mac). This should start an automatic download.
 
-*We are going to exclusively be using the command-line environment for the rest of the exercise* The reason is because it is how git was first intended to be used and it'll make you look cooler (at least for a brief period of time).
+*We are going to exclusively be using the command-line environment for the rest of the exercise* The reason is because it is how git was first intended to be used and it'll make you look cooler (at least for a brief period of time until you decide to use an IDE like Rstudio).
 
 Command line tutorial
 ---------------------
@@ -61,7 +61,7 @@ People call the command-line interpreter the *shell*. It's called the shell beca
     - Look for the "Terminal" application in the launchpad or through the spotlight icon (Command + Space)
 
 - Linux:
-    - Ctrl + Alt + T will open up the terminal
+    - Ctrl + Alt + T will open up the terminal in desktop mode.
 
 
 When you open up the terminal you'll see something like this:
@@ -73,6 +73,21 @@ root@machine:~$
 ```
 
 The prompt will be different for everyone but essentially this is where everyone can start typing in commands so that the shell program takes your command. The default shell that most of us will be using is 'bash' (**b**orn **a**gain **sh**ell).
+
+try typing these commands and see what they do:
+
+```
+ls
+ls -alF
+cd ..
+mkdir new-dir
+touch new-file
+vim new-file
+```
+
+The above commands are really basic commands. Most of them should work on all of the os's but it's possible that `vim` doesn't work for windows users. 
+
+For people not familiar with `vim` the way to get out is typing `:q` and hitting enter. 
 
 Configuring Git
 ---------------
@@ -115,16 +130,16 @@ Now let's create a readme file about the project that we're going to work on. Us
 
 ![](./fig2.png)
 
-Once we have a simple README.md file saved in the folder now we cna add it to our local and remote repository.
+Once we have a simple README.md file saved in the folder now we can add it to our local and remote repository.
 
 Init, Pull, Add, Commit, Push
 -----------------------
 
-Now that we've started a project and have a file that is subject to version control, we should probably discuss a little bit about the (usual) steps one takes throughout a project. Once we have a folder with a file that we want to keep track of, we initialize (`git init`) the folder, we add (`git add filename`) the file to the local repository, we commit (`git commit -m "message"`) our changes, and then we push (`git push origin master`). The `git push origin master` code is basically indicating that we want to finalize the changes that we've commited :) origin is the default name of the remote repository. `master` is branch that we're making changes to. If we had branches that were stemming from the master branch, we could have `git push origin <branch name>`. If we don't want to push the changes, we can revert (e.g. `git revert commit-id` where `commit-id` would be something like `9ca304ed12b991f8251496b4ea452857b34353e7` based on looking at the `git log`) 
+Now that we've started a project and have a file that is subject to version control, we should probably discuss a little bit about the (usual) steps one takes throughout a project. Once we have a folder with a file that we want to keep track of, we initialize (`git init`) the folder, we add (`git add filename`) the file to the local repository, we commit (`git commit -m "message"`) our changes, and then we push (`git push origin master`). The `git push origin master` code is basically indicating that we want to push/send the changes we made in our `master` branch to the remote repository named `origin` (origin is the default name of the remote repository). `master` is the branch that we're currently working on and making changes to. If we had branches that were stemming from the master branch, we could have `git push origin <branch name>`. If we don't want to push the changes, we can revert (e.g. `git revert commit-id` where `commit-id` would be something like `9ca304ed12b991f8251496b4ea452857b34353e7` based on looking at the `git log`) 
 
 There are many more commands that we could touch on but these are the basics of the workflow that is most useful for the workflow.
 
-Now that we have a readme file let's try adding the file to the git repository and putting into a remote repository. We should probably set up a github account first so that we actually have a remote repository. Go to [github.com](www.github.com) and create an account.
+Now that we have a readme file let's try adding the file to the local git repository and putting into a remote repository. We should probably set up a github account first so that we actually have a remote repository. Go to [github.com](www.github.com) and create an account.
 
 Once you are signed in you will see a green "New repository" button. Hit it!
 
@@ -141,7 +156,7 @@ git remote add origin git@github.com:username/projectname.git
 git push origin master
 ```
 
-Boom! we have made our first push to a remote git repository. The output should indicate the status of the changes that were made.
+Boom! we have made our first push to a remote git repository. The output should indicate the status of the changes that were made. 
 
 From here on out if changes were made to a file and we want to check what kind of changes were made in the repository we can issue:
 
@@ -364,7 +379,94 @@ you'll see a `CONFLICT (content)` message popup. And if you go into the code/dat
 ```
 git commit -am "keep add-data-01 as is"
 ```
+Done! Now we've dealt with merge conflicts. THat wasn't so bad right? If you are using an Integrated Development Environment (IDE) like eclipse, Rstudio, and etc there will likely be a more graphcal approach to going through conflicts. Dealing with it in the terminal isn't so bad right?
 
+Remote
+--
+
+So far we've worked on the project offline and didn't really think about the server/remote side. The neat thing about git is that git works offline by default. However, people don't use git just for that reason. Git is used because it is meant for collaboration :) The repository we just worked on/in is the local one whereas now we should think about having a second copy, which is considered a remote repository. 
+
+Services like [Github](github.com) uses a hub-model which essentially is centralized. This is to say that the `origin` repository we pushed our README.md file is the central repository where everyone in the team stores the changes that they made and retrieves changes that were made by other team members. 
+
+Early on we used a command
+
+```
+git remote add origin <address to store repository>
+```
+
+The code above is adding a remote repository named `origin` that is located at `<address to store repository>`. You can also not use `origin` and change to a different branch name. To check which remote repository is used for the project issue `git remote`. You can also check what url is used for the remote repository:
+
+```
+git remote get-url --all origin
+```
+
+Pushing changes
+--
+
+Let's try pushing our code file into the remote repository. Hopefully the remote repository is set up and all we need to issue is pushing the `master` branch of our local repository into the remote one (i.e. `origin`):
+
+```
+git push origin master
+```
+
+If your remote repository uses a https protocol, then it will ask you for a username and password. Type it in and the changes you commited should go into the remote `origin` repository. The lines of text essentially indicate the git is compressing the files and sending it over. If instead we issued
+
+```
+git push origin add-data-01
+```
+
+We will see 
+
+```
+* [new branch]      add-data-01 -> add-data-01
+```
+
+Which git essentially creates a new branch in the `origin` repository.
+
+
+Pulling changes
+--
+
+Usually someone will have been working on a file and made changes that were pushed onto the `origin` repo. If no conflicts exists on your local copy, then the command to pull in those changes are
+
+```
+git pull origin master
+``` 
+
+`master` could be replaced with any other branch name (e.g. add-data-01). 
+
+
+Merge conflicts
+--
+
+Sometimes conflicts are inevitable. To avoid more merge conflicts than necessary, it's best practice to pull changes before working on a file as a team. Up to this point we've been working solo but now we're going to work as a team to go through push, pull, and merges. 
+
+Here is the protocol:
+
+- Form a group with a person sitting next to you or a friend.
+- For each group, on github.com create 1 repository.
+- On the setting tab, add each group members username, fullname or e-mail address
+- Create folder in local machines and initialize. `git init`
+- One member of the team create an R script that loads car data and make histogram of any variable (`data(mtcars) hist(mtcars$cyl)`)
+- Another member create README.md file and put anything in it. (some description of folder is fine)
+- Add/Stage the newly created files and commit the changes. `git add file / git commit -m "message"`
+- Add the remote repository `git remote add origin <address>`
+- Push changes made in the local repo `git push origin <branch>`
+    - if conflict arises pull first. 
+- Pull changes made from the remote repo `git pull origin <branch>`
+- Create new branch (name it anything) `git branch <branch> / git checkout <branch>`
+- Make changes to the other teammates file. (add comment or new histogram)
+- Push changes onto the remote `git push origin <new branch>`
+- Pull <new branch> of teammate `git pull origin <new branch teammate>`
+- Merge new branch to master branch in local `git checkout master; git merge <new branch teammate>`
+    - resolve conflict if necessary
+- Push local master to origin `git push origin master`
+    - resolve conflict if necessary
+- Check difference in the branches from master and <new branch> `git diff master <new branch>`
+
+Usually the final step is to keep everything in master branch. The usual workflow will consist of staying in a working branch, pulling from `origin/master`, making changes, pushing changes to `origin/master` or `origin/branch`.
+
+If you get everything you've done so far, then you're good to go with using git to collaborate with other people :) Figuring out how it works in an IDE environment isn't all that difficult now that you know what these terms mean and the workflow! 
 
 What is make?
 -------------

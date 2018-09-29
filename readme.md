@@ -19,7 +19,7 @@ Topics to cover:
 What is git?
 ------------
 
-Git is a version control tool. Most of us have exposure to a simpler version control tool known as Dropbox, OneDrive, and/or Google Drive. Git is basically a sup-ed up version control tool that isn't easy to understand as a newbie. This document is here to help everyone get a good grasp of what is git and why we use it :)
+Git is a version control tool. Most of us have exposure to a graphical version control tool known as Dropbox, OneDrive, and/or Google Drive. Git is a basic command line version control tool that allows people that write code to track changes. This document is here to help everyone get a good grasp of what is git and why we use it :) For a more detailed account, check the [wiki](https://en.wikipedia.org/wiki/Git)
 
 The purpose of using git
 ------------------------
@@ -29,7 +29,6 @@ Since I'd like to keep the document short, I'll list only the most important asp
 - Git is a decentralized/distributed version control tool.
 - Git makes us think about the version control process.
 - Git is an automated version control system.
-- Projects can be safely changed from previous versions to the current working copy.
 
 There are plenty more reasons to choose to use git as a version control system but I won't list all of that here. We'll go through use cases and make sure that at least see those that are listed above are good enough reason to continue to use git.
 
@@ -249,7 +248,7 @@ git log
 ```
 The log will show the history of what has happened so far. If one wantedto one could return to either of the commit stages by performing the `git revert <commitid>`.
 
-If you've mistakedn removed a file through another means, you could still run the `git rm temp.txt` because the file is still in git's staging area (i.e. database) and make sure to commit the change.
+If you've mistakenly removed a file through another means, you could still run the `git rm temp.txt` because the file is still in git's staging area (i.e. database) and make sure to commit the change.
 
 Renaming files
 --
@@ -274,7 +273,7 @@ This command will open up a editor (at least in linux) to indicate to what commi
 git add --all
 --
 
-If we are absolutely in a rush and there are too many things going on in the repository. We should probably wait until we have time to make changes to the repository. However, for those that are inpatient, there is a nuclear option. `git add all` will add all files that are both tracked and untracked into the staging area. Then everything is one commit away from being stored into the local repository. THe nuclear option is almost never advised because one should really be thinking about each individual components and what changes that were made specifically so that when one comes back to the project, it's easier to remember where things were for each specific files. A summary of what happened should suffice for each file.
+If we are absolutely in a rush and there are too many things going on in the repository. We should probably wait until we have time to make changes to the repository. However, for those that are inpatient, there is a nuclear option. `git add --all` will add all files that are both tracked and untracked into the staging area. Then everything is one commit away from being stored into the local repository. The nuclear option is almost never advised because one should really be thinking about each individual components and what changes that were made specifically so that when one comes back to the project, it's easier to remember where things were for each specific files. A summary of what happened should suffice for each file.
 
 Branching
 --
@@ -286,6 +285,7 @@ Every git repo starts with a master branch. People usually put "stable" and/or "
 ```
 git branch
 ```
+
 
 we see that there is a master branch but nothing more. To understand how the master branch is linked to the commit stacks take a look at 
 
@@ -310,11 +310,16 @@ you can immediately check what branches we have:
 git branch
 ```
 
+![](./static/fig4.png)
+
 Git doesn't put you into the new branch so you need to "checkout" the new branch.
 
 ```
 git checkout new-data-manage
 ```
+
+![](./static/fig5.png)
+
 
 now you should see something that indicates that there has been a switch to branch 'new-data-manage'. Another way you could've created and checkout the branch on one go would be `git checkout -b new-data-manage`. At the moment the two branches (`master` and `new-data-manage`) are just two different names for the same commitid. Since they have the same head commit, everything before the head commit is the same. However, any commit made to `new-data-manage` will now only be in the new branch not in the `master` branch. Let's make a change to the data_manage.R file now. Once we change the file we can commit.
 
@@ -336,7 +341,7 @@ Usually, there is a scenario where someone is working on the master branch while
 git checkout master
 ```
 
-Merging from the `new-data-manage` branch is as such:
+Merging new code from the `new-data-manage` branch into the `master` branch is as such:
 
 ```
 git merge new-data-manage
@@ -346,7 +351,7 @@ Done! The master branch now has merged changes that were commited into the new-d
 
 The simplest merge is what we just saw termed `fast-forward`. Nothing has changed in the master branch since we started the new-data-manage branch. Only one side of the merger has changed thus the merged state will be identical to that of the new-data-manage branch.
 
-Interestingly, the fast-forward merging is usually not something that occurs often. An analyst or programmer may be carried away with one of the branches he/she is working on and goes far away from the master branch. To avoid having to go through a difficult merge, it's recommended that the master branch is merged into the other branch that one is workign on regularly using `git merge master`. 
+Interestingly, the fast-forward merging is usually not something that occurs often. An analyst or programmer may be carried away with one of the branches he/she is working on and goes far away from the master branch. To avoid having to go through a difficult merge, it's recommended that the master branch is merged into the other branch that one is working on regularly using `git merge master`. 
 
 Merge conflicts
 --
@@ -355,7 +360,7 @@ This is scary for new users of git. What happens if there are two different bran
 
 Up to the point of conflict, `git merge <branch>` will essentially automatically add and commit the changes. Where differences arises, git will essentially display the two different files with *conflict markers* and the user is supposed to go through each one and choose which one of the files that we want to merge into our newest commit.
 
-Let's try an example. We're going to create a new branch called add-data-01 and change the data_manage.R code so that we get NHANES data from 2001-2002. 
+Let's try an example. We're going to create a new branch called add-data-01 and change the data_manage.R code so that we get NHANES data from 2001-2002. The code should be in the [github file](https://github.com/ck2136/reproducible_research/tree/master/static/data_manage.R)
 
 
 ```
@@ -375,8 +380,15 @@ let's say we want to add the master branche's change to the add-data-01 branch.
 git checkout add-data-01
 git merge master
 ```
+![](./static/fig6.png)
 
 you'll see a `CONFLICT (content)` message popup. And if you go into the code/data_manage.R file you'll se some cryptic signs `<<<<<, =====`. The code in between `<<<<<< HEAD` and `=======` is the current commit head of the branch we are in (i.e. checking out). In otherwords, this is the code that is originally in the add-data-01 branch. The code below the `======` sign is the master branch version that we're trying to merge in. To resolve this conflict we need to get rid of the things that you don't want there to be in the file. Get rid of the angled brackets and the equal sign. Afterwards, save and we just have to officially add the file to the staging area and commit to the branch we're in, which is the add-data-01 branch.
+
+![](./static/fig7.png)
+
+I got rid of the master branch code. You can get ride of whichever code you don't want
+
+![](./static/fig8.png)
 
 ```
 git commit -am "keep add-data-01 as is"
@@ -396,7 +408,7 @@ Early on we used a command
 git remote add origin <address to store repository>
 ```
 
-The code above is adding a remote repository named `origin` that is located at `<address to store repository>`. You can also not use `origin` and change to a different branch name. To check which remote repository is used for the project issue `git remote`. You can also check what url is used for the remote repository:
+The code above is adding a remote repository named `origin` that is located at `<address to store repository>`. You can also not use `origin` and change to a different repository name. To check which remote repository is used for the project issue `git remote`. You can also check what url is used for the remote repository:
 
 ```
 git remote get-url --all origin
@@ -443,7 +455,7 @@ Merge conflicts
 
 Sometimes conflicts are inevitable. To avoid more merge conflicts than necessary, it's best practice to pull changes before working on a file as a team. Up to this point we've been working solo but now we're going to work as a team to go through push, pull, and merges. 
 
-Here is the protocol:
+Here is the protocol (it can get confusing towards the bottom so if it helps try to visualize which branches you are pulling and pushing into):
 
 - Form a group with a person sitting next to you or a friend.
 - For each group, on github.com create 1 repository.
@@ -458,7 +470,7 @@ Here is the protocol:
 - Pull changes made from the remote repo `git pull origin <branch>`
 - Create new branch (name it anything) `git branch <branch> / git checkout <branch>`
 - Make changes to the other teammates file. (add comment or new histogram)
-- Push changes onto the remote `git push origin <new branch>`
+- Push changes onto the remote `git push origin <branch>`
 - Pull <new branch> of teammate `git pull origin <new branch teammate>`
 - Merge new branch to master branch in local `git checkout master; git merge <new branch teammate>`
     - resolve conflict if necessary

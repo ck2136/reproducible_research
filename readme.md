@@ -36,7 +36,10 @@ Since I'd like to keep the document short, I'll list only the most important asp
 - Git makes us think about the version control process.
 - Git is an automated version control system.
 
-There are plenty more reasons to choose to use git as a version control system but I won't list all of that here. We'll go through use cases and make sure that at least see those that are listed above are good enough reason to continue to use git.
+There are plenty more reasons to choose to use git as a version control system but I won't list all of that here. We'll go through use cases and make sure that at least see those that are listed above are good enough reason to continue to use git. As a personal example, look how lovely one of my directory for a publication I've worked on without having knowledge of git:
+
+![example prompt](./static/fig0.png)
+
 
 Installing git!
 ---------------

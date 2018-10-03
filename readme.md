@@ -7,7 +7,7 @@
 - How: Follow protocols that boost efficiency and transparency.
 	- Mostly using tools created by software developers
 
-Topics to cover:
+Software (Topics) to cover:
 
 - Git (Reproducible Research)
 - Make (Automated build tool)
@@ -139,20 +139,20 @@ Now let's create a readme file about the project that we're going to work on. Us
 
 Once we have a simple README.md file saved in the folder now we can add it to our local and remote repository.
 
-Init, Pull, Add, Commit, Push
+Init, Add, Commit, Push
 -----------------------
 
-Now that we've started a project and have a file that is subject to version control, we should probably discuss a little bit about the (usual) steps one takes throughout a project. Once we have a folder with a file that we want to keep track of, we initialize (`git init`) the folder, we add (`git add filename`) the file to the local repository, we commit (`git commit -m "message"`) our changes, and then we push (`git push origin master`). The `git push origin master` code is basically indicating that we want to push/send the changes we made in our `master` branch to the remote repository named `origin` (origin is the default name of the remote repository). `master` is the branch that we're currently working on and making changes to. If we had branches that were stemming from the master branch, we could have `git push origin <branch name>`. If we don't want to push the changes, we can revert (e.g. `git revert commit-id` where `commit-id` would be something like `9ca304ed12b991f8251496b4ea452857b34353e7` based on looking at the `git log`) 
+Now that we've started a project and have a file that is subject to version control, we should probably discuss a little bit about the (usual) steps one takes throughout a project. Once we have a folder with a file that we want to keep track of, we initialize (`git init`) the folder so git system can track everything, we add (`git add filename`) the file to the staging area of the local repository, we commit (`git commit -m "message"`) our changes so the changes are now official, and then we push (`git push origin master`) to a remote repository if we want to share. The `git push origin master` code is basically indicating that we want to push/send the changes we made in our `master` branch to the remote repository named `origin` (origin is the default name of the remote repository). `master` is the branch that we're currently working on and making changes to. If we had branches that were stemming from the master branch, we could have `git push origin <branch name>`. If we don't want to push the changes, we can revert (e.g. `git revert <commit-id>` where `<commit-id>` would be something like `9ca304ed12b991f8251496b4ea452857b34353e7` based on looking at the `git log`) 
 
 There are many more commands that we could touch on but these are the basics of the workflow that is most useful for the workflow.
 
-Now that we have a readme file let's try adding the file to the local git repository and putting into a remote repository. We should probably set up a github account first so that we actually have a remote repository. Go to [github.com](www.github.com) and create an account.
+Now that we have a readme file let's try adding the file (to staging area) and committing the change to the local git repository and putting into a remote repository. We should probably set up a github account first so that we actually have a remote repository. Go to [github.com](www.github.com) and create an account.
 
 Once you are signed in you will see a green "New repository" button. Hit it!
 
 ![](./static/fig3.png)
 
-Once done insert whatever repository name you would like it to be. Add a description if you like and keep it public :) Also don't check the "Initialize this repository with a README" box because we just made one :)
+Once done insert whatever repository name you would like it to be (it would be a good idea to have the same name as the one in the local repository). Add a description if you like and keep it public :) Also don't check the "Initialize this repository with a README" box because we just made one :)
 
 The github folks are kind enough to give us instruction and you could always use the instructions to setting up a connection from local repository to remote repository. Now that we need to link the local repository with the remote repository. Now we can add, commit, add remote repository, push changes made in repository to remote repository
 
@@ -214,7 +214,7 @@ git add README.md code/data_manage.R
 git status
 ```
 
-The status now indicats that we've added the files to the master branch in the origin repository. Now we can commit the changes:
+The status now indicats that we've added the files to the staging area in the local repository. Now we can commit the changes:
 
 ```
 git commit -m "Add data management code"
@@ -245,14 +245,14 @@ git rm temp.txt
 git status
 ```
 
-we can see that at the master branch the temp.txt file has been deleted.you can type `ls` to list files in the directory and see that it doesn't exist in the directory either. Now we need to commit the deletion.
+we can see that at the master branch the temp.txt file has been deleted. you can type `ls` to list files in the directory and see that it doesn't exist in the directory either. Now we need to commit the deletion.
 
 ```
 git commit -m "deleted temp file"
 git status
 git log
 ```
-The log will show the history of what has happened so far. If one wantedto one could return to either of the commit stages by performing the `git revert <commitid>`.
+The log will show the history of what has happened so far. If one wanted to one could return to either of the commit stages by performing the `git revert <commitid>`.
 
 If you've mistakenly removed a file through another means, you could still run the `git rm temp.txt` because the file is still in git's staging area (i.e. database) and make sure to commit the change.
 
@@ -411,7 +411,7 @@ Services like [Github](github.com) uses a hub-model which essentially is central
 Early on we used a command
 
 ```
-git remote add origin <address to store repository>
+git remote add origin <address of remote repository>
 ```
 
 The code above is adding a remote repository named `origin` that is located at `<address to store repository>`. You can also not use `origin` and change to a different repository name. To check which remote repository is used for the project issue `git remote`. You can also check what url is used for the remote repository:
@@ -466,23 +466,29 @@ Here is the protocol (it can get confusing towards the bottom so if it helps try
 - Form a group with a person sitting next to you or a friend.
 - For each group, on github.com create 1 repository.
 - On the setting tab, add each group members username, fullname or e-mail address
-- Create folder in local machines and initialize. `git init`
-- One member of the team create an R script that loads car data and make histogram of any variable (`data(mtcars) hist(mtcars$cyl)`)
+- For only one member, create a folder in local machine and initialize. `git init`
+    - Create a R script that loads car data and make histogram of any variable (`data(mtcars) hist(mtcars$cyl)`)
+    - Add/Stage the newly created files and commit the changes. `git add file / git commit -m "message"`
+    - Add the remote repository `git remote add origin <address>`
+    - Wait until other member pushes changes into repo then pull the changes `git pull origin <branch>`
 - Another member create README.md file and put anything in it. (some description of folder is fine)
-- Add/Stage the newly created files and commit the changes. `git add file / git commit -m "message"`
-- Add the remote repository `git remote add origin <address>`
-- Push changes made in the local repo `git push origin <branch>`
-    - if conflict arises pull first. 
-- Pull changes made from the remote repo `git pull origin <branch>`
-- Create new branch (name it anything) `git branch <branch> / git checkout <branch>`
-- Make changes to the other teammates file. (add comment or new histogram)
-- Push changes onto the remote `git push origin <branch>`
-- Pull <new branch> of teammate `git pull origin <new branch teammate>`
-- Merge new branch to master branch in local `git checkout master; git merge <new branch teammate>`
+    - Add/Stage the newly created files and commit the changes. `git add file / git commit -m "message"`
+    - Add the remote repository `git remote add origin <address>`
+    - Push changes made in the local repo `git push origin <branch>`
+    - If conflict arises pull first. 
+- All Members create new branch (name it anything) `git branch <branch> / git checkout <branch>`
+    - Make changes to the other teammates file. (add comment or new histogram)
+    - Push changes onto the remote `git push origin <branch>`
+    - Pull <new branch> of teammate `git pull origin <new branch teammate>`
+- Merge new branch to master branch in local repository `git checkout master; git merge <new branch teammate>`
     - resolve conflict if necessary
 - Push local master to origin `git push origin master`
     - resolve conflict if necessary
 - Check difference in the branches from master and <new branch> `git diff master <new branch>`
+- Now try removing files with `git rm <file>`
+    - commit change afterwards
+- Now try removing branches with `git branch -d <branch name>`
+    - commit change afterwards
 
 Usually the final step is to keep everything in master branch. The usual workflow will consist of staying in a working branch, pulling from `origin/master`, making changes, pushing changes to `origin/master` or `origin/branch`.
 

@@ -21,6 +21,12 @@ What is git?
 
 Git is a version control tool. Most of us have exposure to a graphical version control tool known as Dropbox, OneDrive, and/or Google Drive. Git is a basic command line version control tool that allows people that write code to track changes. This document is here to help everyone get a good grasp of what is git and why we use it :) For a more detailed account, check the [wiki](https://en.wikipedia.org/wiki/Git)
 
+Schematic of Git:
+
+![](http://blog.podrezo.com/wp-content/uploads/2014/09/git-operations.png)
+* Photo from http://blog.podrezo.com/git-introduction-for-cvssvntfs-users/#more-231 
+
+
 The purpose of using git
 ------------------------
 
@@ -481,6 +487,15 @@ Here is the protocol (it can get confusing towards the bottom so if it helps try
 Usually the final step is to keep everything in master branch. The usual workflow will consist of staying in a working branch, pulling from `origin/master`, making changes, pushing changes to `origin/master` or `origin/branch`.
 
 If you get everything you've done so far, then you're good to go with using git to collaborate with other people :) Figuring out how it works in an IDE environment isn't all that difficult now that you know what these terms mean and the workflow! 
+
+Git Resources
+--
+
+- [Pro Git](https://git-scm.com/book/en/v2): Book that goes into more details about git
+- [Atlassian cloud git tutorial](https://www.atlassian.com/git/tutorials)
+- [Tutorial point git tutorial](https://www.tutorialspoint.com/git/)
+- [git - the simple guide](https://rogerdudler.github.io/git-guide/): I like this one because it's short
+
 
 What is make?
 -------------

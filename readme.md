@@ -470,25 +470,28 @@ Here is the protocol (it can get confusing towards the bottom so if it helps try
     - Create a R script that loads car data and make histogram of any variable (`data(mtcars) hist(mtcars$cyl)`)
     - Add/Stage the newly created files and commit the changes. `git add file / git commit -m "message"`
     - Add the remote repository `git remote add origin <address>`
+    - Push changes made in the local repo into remote repo `git push origin <branch>`
     - Wait until other member pushes changes into repo then pull the changes `git pull origin <branch>`
-- Another member create README.md file and put anything in it. (some description of folder is fine)
+- Another member clone (i.e. download) the repository using `git clone <url>`
+    - In the cloned repo, create README.md file and put anything in it. (some description of folder is fine)
     - Add/Stage the newly created files and commit the changes. `git add file / git commit -m "message"`
-    - Add the remote repository `git remote add origin <address>`
-    - Push changes made in the local repo `git push origin <branch>`
-    - If conflict arises pull first. 
+    - Push changes made in the local repo into remote repo `git push origin <branch>`
 - All Members create new branch (name it anything) `git branch <branch> / git checkout <branch>`
     - Make changes to the other teammates file. (add comment or new histogram)
     - Push changes onto the remote `git push origin <branch>`
     - Pull <new branch> of teammate `git pull origin <new branch teammate>`
+    - If conflict arises pull first. 
 - Merge new branch to master branch in local repository `git checkout master; git merge <new branch teammate>`
     - resolve conflict if necessary
-- Push local master to origin `git push origin master`
+- Push local master branch to remote master branch `git push origin master`
     - resolve conflict if necessary
 - Check difference in the branches from master and <new branch> `git diff master <new branch>`
 - Now try removing files with `git rm <file>`
     - commit change afterwards
 - Now try removing branches with `git branch -d <branch name>`
     - commit change afterwards
+- To delete the entire folder created get out of the folder `cd ..` 
+    - `rm -rf <folder_name>`. `-r` for recursvie (child folders and files deleted) and `-f` for force (doesn't ask you about your opinions)
 
 Usually the final step is to keep everything in master branch. The usual workflow will consist of staying in a working branch, pulling from `origin/master`, making changes, pushing changes to `origin/master` or `origin/branch`.
 

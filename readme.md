@@ -162,13 +162,15 @@ The github folks are kind enough to give us instruction and you could always use
 ```
 git add README.md
 git commit -m "first commit"
-git remote add origin git@github.com:username/projectname.git
+git remote add origin https://github.com:username/projectname.git
 git push origin master
 ```
 
 Boom! we have made our first push to a remote git repository. The output should indicate the status of the changes that were made. 
 
 From here on out if changes were made to a file and we want to check what kind of changes were made in the repository we can issue:
+
+**If you inadvertantly added a remote url that starts with `git@blahblah.git` then you can remove that remote address by issuing `git remote remove origin`**. The command essentially removes the link from local repository to the remote repository. You can then add the remote repository again by issuing `git remote add origin <url>`. Another way to change the url if you have incorrectly linked the remote repository is the issue `git remote set-url <url>`. 
 
 
 ```
